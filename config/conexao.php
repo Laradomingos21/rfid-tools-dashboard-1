@@ -7,7 +7,7 @@ $host    = 'localhost';    // geralmente 'localhost' no XAMPP/WAMP
 $porta   = 3306;         // porta padrão do MySQL
 $banco   = 'rfid_ferramentas';   // nome do banco de dados (veja database/schema.sql)
 $usuario = 'root';         // usuário do MySQL (padrão do XAMPP é 'root')
-$senha   = '21122006';              // senha do MySQL (padrão do XAMPP é vazio '')
+$senha   = '123456';              // senha do MySQL (padrão do XAMPP é vazio '')
 
 try {
     $pdo = new PDO(
