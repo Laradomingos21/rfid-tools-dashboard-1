@@ -159,7 +159,7 @@ unset($_SESSION['msg_func'], $_SESSION['status_func']);
 
 
             <a
-                href="index_cadastro.php"
+                href="funcionario.php"
                 class="botao-secundario"
             >
                 Voltar

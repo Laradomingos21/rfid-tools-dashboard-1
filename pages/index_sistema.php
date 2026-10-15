@@ -62,7 +62,7 @@ $movimentacoes = $pdo->query('
         <aside class="menu-lateral">
             <nav class="menu">
                 <a href="index_sistema.php" class="ativo">Painel</a>
-                <a href="cadastro_funcionario.php">Cadastrar funcionário</a>
+                <a href="funcionario.php">Cadastrar funcionário</a>
                 <a href="cadastro_ferramentas.php">Cadastrar ferramenta</a>
                 <a href="cadastro_categorias.php">Categorias</a>
                 <a href="cadastro_zonas.php">Zonas</a>
