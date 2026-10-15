@@ -138,18 +138,13 @@ unset($_SESSION['msg_login'], $_SESSION['status_login']);
 
 
             <div class="cadastro-login">
-
                 <p>
-                    Ainda não possui acesso?
+                    Ainda não possui acesso? Para o primeiro acesso, solicite a
+                    criação da sua conta ao suporte.
                 </p>
-
-                <a
-                    href="cadastro_funcionario.php"
-                    class="botao-secundario"
-                >
-                    Cadastrar funcionário
-                </a>
-
+                <a class="botao-secundario" href="https://mail.google.com/mail/?view=cm&fs=1&to=suporte@theatlasdev.com.br"
+                target="_blank"
+                rel="noopener noreferrer"> suporte@theatlasdev.com.br </a>
             </div>
 
         </section>

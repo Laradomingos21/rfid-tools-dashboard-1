@@ -3,11 +3,11 @@
 // Troque os valores abaixo pelos dados reais do seu banco (XAMPP/phpMyAdmin, etc.)
 // Todo o sistema usa PDO — não misture com mysqli em outros arquivos.
 
-$host    = '10.140.170.140';    // geralmente 'localhost' no XAMPP/WAMP
+$host    = 'localhost';    // geralmente 'localhost' no XAMPP/WAMP
 $porta   = 3306;         // porta padrão do MySQL
 $banco   = 'rfid_ferramentas';   // nome do banco de dados (veja database/schema.sql)
 $usuario = 'root';         // usuário do MySQL (padrão do XAMPP é 'root')
-$senha   = '123456';              // senha do MySQL (padrão do XAMPP é vazio '')
+$senha   = '21122006';              // senha do MySQL (padrão do XAMPP é vazio '')
 
 try {
     $pdo = new PDO(

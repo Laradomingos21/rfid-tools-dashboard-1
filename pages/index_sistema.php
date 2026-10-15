@@ -43,7 +43,7 @@ $movimentacoes = $pdo->query('
     <link rel="stylesheet" href="style_sistema.css">
 </head>
 
-<body>
+<body class="com-menu">
 
     <header class="topbar">
         <div class="marca">
@@ -52,108 +52,122 @@ $movimentacoes = $pdo->query('
         </div>
         <div class="usuario">
             <span>Olá, <strong><?= htmlspecialchars($_SESSION['funcionario_nome']) ?></strong></span>
-            <a href="cadastro_funcionario.php">Cadastrar funcionário</a>
             <a href="../controller/logout.php" class="botao-sair">Sair</a>
         </div>
     </header>
 
-    <main class="painel">
+    <!-- Menu lateral + painel lado a lado -->
+    <div class="layout">
 
-        <!-- Barra de leitura de tag: ação principal do sistema -->
-        <div class="scan-bar">
-            <div class="scan-label">
-                <strong>Leitor RFID</strong>
-                <small>Aproxime ou digite a tag</small>
+        <aside class="menu-lateral">
+            <nav class="menu">
+                <a href="index_sistema.php" class="ativo">Painel</a>
+                <a href="cadastro_funcionario.php">Cadastrar funcionário</a>
+                <a href="cadastro_ferramentas.php">Cadastrar ferramenta</a>
+                <a href="cadastro_categorias.php">Categorias</a>
+                <a href="cadastro_zonas.php">Zonas</a>
+            </nav>
+        </aside>
+
+        <main class="painel">
+
+            <!-- Barra de leitura de tag: ação principal do sistema -->
+            <div class="scan-bar">
+                <div class="scan-label">
+                    <strong>Leitor RFID</strong>
+                    <small>Aproxime ou digite a tag</small>
+                </div>
+                <form id="form-scan">
+                    <input type="text" id="input-tag" name="tag_rfid" placeholder="Ex: TAG-FRM-0001" autocomplete="off">
+                    <button type="submit">Registrar leitura</button>
+                </form>
             </div>
-            <form id="form-scan">
-                <input type="text" id="input-tag" name="tag_rfid" placeholder="Ex: TAG-FRM-0001" autocomplete="off">
-                <button type="submit">Registrar leitura</button>
-            </form>
-        </div>
-        <div id="scan-feedback"></div>
+            <div id="scan-feedback"></div>
 
-        <!-- Estatísticas -->
-        <section class="stats">
-            <div class="stat-card total">
-                <div class="valor"><?= $totalGeral ?></div>
-                <div class="rotulo">Ferramentas cadastradas</div>
-            </div>
-            <div class="stat-card disponivel">
-                <div class="valor"><?= $totais['disponivel'] ?></div>
-                <div class="rotulo">Disponíveis</div>
-            </div>
-            <div class="stat-card emprestada">
-                <div class="valor"><?= $totais['emprestada'] ?></div>
-                <div class="rotulo">Emprestadas agora</div>
-            </div>
-            <div class="stat-card manutencao">
-                <div class="valor"><?= $totais['manutencao'] ?></div>
-                <div class="rotulo">Em manutenção</div>
-            </div>
-        </section>
+            <!-- Estatísticas -->
+            <section class="stats">
+                <div class="stat-card total">
+                    <div class="valor"><?= $totalGeral ?></div>
+                    <div class="rotulo">Ferramentas cadastradas</div>
+                </div>
+                <div class="stat-card disponivel">
+                    <div class="valor"><?= $totais['disponivel'] ?></div>
+                    <div class="rotulo">Disponíveis</div>
+                </div>
+                <div class="stat-card emprestada">
+                    <div class="valor"><?= $totais['emprestada'] ?></div>
+                    <div class="rotulo">Emprestadas agora</div>
+                </div>
+                <div class="stat-card manutencao">
+                    <div class="valor"><?= $totais['manutencao'] ?></div>
+                    <div class="rotulo">Em manutenção</div>
+                </div>
+            </section>
 
-        <!-- Tabela + histórico -->
-        <section class="conteudo">
+            <!-- Tabela + histórico -->
+            <section class="conteudo">
 
-            <div class="painel-secao">
-                <h2>Ferramentas</h2>
-                <p class="subinfo">Status atualiza automaticamente a cada leitura de tag</p>
+                <div class="painel-secao">
+                    <h2>Ferramentas</h2>
+                    <p class="subinfo">Status atualiza automaticamente a cada leitura de tag</p>
 
-                <?php if (empty($ferramentas)): ?>
-                    <p class="vazio">Nenhuma ferramenta cadastrada ainda. Adicione registros na tabela <code>ferramentas</code>.</p>
-                <?php else: ?>
-                    <table class="ferramentas">
-                        <thead>
-                            <tr>
-                                <th>Nome</th>
-                                <th>Tag</th>
-                                <th>Local</th>
-                                <th>Status</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <?php foreach ($ferramentas as $f): ?>
-                                <tr data-ferramenta-id="<?= $f['id'] ?>">
-                                    <td><?= htmlspecialchars($f['nome']) ?></td>
-                                    <td class="tag"><?= htmlspecialchars((string) $f['tag_rfid']) ?></td>
-                                    <td><?= htmlspecialchars((string) ($f['localizacao'] ?? '—')) ?></td>
-                                    <td>
-                                        <span class="status-badge <?= $f['status'] ?>">
-                                            <?= ['disponivel' => 'Disponível', 'emprestada' => 'Emprestada', 'manutencao' => 'Manutenção', 'perdida' => 'Perdida'][$f['status']] ?>
-                                        </span>
-                                    </td>
-                                </tr>
-                            <?php endforeach; ?>
-                        </tbody>
-                    </table>
-                <?php endif; ?>
-            </div>
-
-            <div class="painel-secao">
-                <h2>Últimas movimentações</h2>
-                <p class="subinfo">Empréstimos e devoluções mais recentes</p>
-
-                <ul class="feed-movimentacoes" id="lista-movimentacoes">
-                    <?php if (empty($movimentacoes)): ?>
-                        <li class="vazio">Nenhuma movimentação registrada ainda.</li>
+                    <?php if (empty($ferramentas)): ?>
+                        <p class="vazio">Nenhuma ferramenta cadastrada ainda. Adicione registros na tabela <code>ferramentas</code>.</p>
                     <?php else: ?>
-                        <?php foreach ($movimentacoes as $m): ?>
-                            <li>
-                                <div class="linha-topo">
-                                    <span class="<?= $m['tipo'] === 'emprestimo' ? 'tipo-emprestimo' : 'tipo-devolucao' ?>">
-                                        <?= $m['tipo'] === 'emprestimo' ? 'Retirou' : 'Devolveu' ?>
-                                    </span>
-                                    <span class="detalhe"><?= date('d/m H:i', strtotime($m['data_hora'])) ?></span>
-                                </div>
-                                <div class="detalhe"><?= htmlspecialchars($m['funcionario_nome']) ?> · <?= htmlspecialchars($m['ferramenta_nome']) ?></div>
-                            </li>
-                        <?php endforeach; ?>
+                        <table class="ferramentas">
+                            <thead>
+                                <tr>
+                                    <th>Nome</th>
+                                    <th>Tag</th>
+                                    <th>Local</th>
+                                    <th>Status</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <?php foreach ($ferramentas as $f): ?>
+                                    <tr data-ferramenta-id="<?= $f['id'] ?>">
+                                        <td><?= htmlspecialchars($f['nome']) ?></td>
+                                        <td class="tag"><?= htmlspecialchars((string) $f['tag_rfid']) ?></td>
+                                        <td><?= htmlspecialchars((string) ($f['localizacao'] ?? '—')) ?></td>
+                                        <td>
+                                            <span class="status-badge <?= $f['status'] ?>">
+                                                <?= ['disponivel' => 'Disponível', 'emprestada' => 'Emprestada', 'manutencao' => 'Manutenção', 'perdida' => 'Perdida'][$f['status']] ?>
+                                            </span>
+                                        </td>
+                                    </tr>
+                                <?php endforeach; ?>
+                            </tbody>
+                        </table>
                     <?php endif; ?>
-                </ul>
-            </div>
+                </div>
 
-        </section>
-    </main>
+                <div class="painel-secao">
+                    <h2>Últimas movimentações</h2>
+                    <p class="subinfo">Empréstimos e devoluções mais recentes</p>
+
+                    <ul class="feed-movimentacoes" id="lista-movimentacoes">
+                        <?php if (empty($movimentacoes)): ?>
+                            <li class="vazio">Nenhuma movimentação registrada ainda.</li>
+                        <?php else: ?>
+                            <?php foreach ($movimentacoes as $m): ?>
+                                <li>
+                                    <div class="linha-topo">
+                                        <span class="<?= $m['tipo'] === 'emprestimo' ? 'tipo-emprestimo' : 'tipo-devolucao' ?>">
+                                            <?= $m['tipo'] === 'emprestimo' ? 'Retirou' : 'Devolveu' ?>
+                                        </span>
+                                        <span class="detalhe"><?= date('d/m H:i', strtotime($m['data_hora'])) ?></span>
+                                    </div>
+                                    <div class="detalhe"><?= htmlspecialchars($m['funcionario_nome']) ?> · <?= htmlspecialchars($m['ferramenta_nome']) ?></div>
+                                </li>
+                            <?php endforeach; ?>
+                        <?php endif; ?>
+                    </ul>
+                </div>
+
+            </section>
+        </main>
+
+    </div>
 
     <script src="main_sistema.js"></script>
 </body>

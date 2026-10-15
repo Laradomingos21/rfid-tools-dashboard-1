@@ -379,6 +379,7 @@ input:focus-visible {
     }
 }
 
+
 @media (max-width: 380px) {
 
     body {
@@ -662,6 +663,67 @@ input:focus-visible {
    cards "vidro" e fonte Alata.
    ========================================================= */
 
+/* ---------- Menu lateral (coluna inteira à esquerda) ----------
+   Fica fixo, do topo ao fim da tela, mesmo que tenha poucos itens.
+   Para usar, a página precisa de <body class="com-menu">. */
+
+.menu-lateral {
+    position: fixed;
+    top: 0;
+    left: 0;
+    bottom: 0;
+
+    width: 240px;
+    z-index: 100;
+
+    padding: 28px 14px;
+    overflow-y: auto;
+
+    background:
+        linear-gradient(180deg, rgba(255, 255, 255, 0.04), rgba(255, 255, 255, 0.015)),
+        #070a0d;
+    border-right: 1px solid rgba(255, 255, 255, 0.09);
+    box-shadow: 12px 0 40px rgba(0, 0, 0, 0.35);
+}
+
+.menu {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.menu a {
+    padding: 12px 14px;
+
+    color: #9aa5a3;
+    font-size: 13px;
+    text-decoration: none;
+
+    border: 1px solid transparent;
+    border-radius: 9px;
+
+    transition:
+        background 0.2s ease,
+        color 0.2s ease,
+        border-color 0.2s ease;
+}
+
+.menu a:hover {
+    color: #ffffff;
+    background: rgba(255, 255, 255, 0.05);
+}
+
+.menu a.ativo {
+    color: #7fe9e1;
+    background: rgba(29, 227, 216, 0.10);
+    border-color: rgba(29, 227, 216, 0.35);
+}
+
+/* abre espaço à esquerda para o menu fixo (240px + respiro de 30px) */
+body.com-menu {
+    padding-left: 270px;
+}
+
 /* ---------- Barra superior ---------- */
 
 .topbar {
@@ -738,6 +800,12 @@ input:focus-visible {
 }
 
 /* ---------- Estrutura geral ---------- */
+
+.layout {
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+}
 
 .painel {
     width: 100%;
@@ -1059,9 +1127,34 @@ table.ferramentas td.tag {
     .conteudo {
         grid-template-columns: 1fr;
     }
+
+    /* sem espaço para a coluna fixa: o menu vira uma faixa no topo */
+    body.com-menu {
+        padding-left: 20px;
+    }
+
+    .menu-lateral {
+        position: static;
+        width: 100%;
+        margin-bottom: 22px;
+        padding: 14px 10px;
+
+        border: 1px solid rgba(255, 255, 255, 0.09);
+        border-radius: 14px;
+        box-shadow: 0 12px 40px rgba(0, 0, 0, 0.4);
+    }
+
+    .menu {
+        flex-direction: row;
+        flex-wrap: wrap;
+    }
 }
 
 @media (max-width: 600px) {
+    body.com-menu {
+        padding-left: 14px;
+    }
+
     .topbar {
         flex-direction: column;
         align-items: flex-start;
@@ -1076,4 +1169,63 @@ table.ferramentas td.tag {
         flex-direction: column;
         min-width: 0;
     }
+}
+
+/* =========================================================
+   FORMULÁRIO DE CADASTRO DE FERRAMENTA
+   (mesmo estilo do formulário de funcionário e do login)
+   ========================================================= */
+
+#formulario_ferramenta {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+#formulario_ferramenta label {
+    margin-top: 8px;
+
+    color: #b8c4c2;
+    font-size: 12px;
+    font-weight: normal;
+}
+
+#formulario_ferramenta input {
+    width: 100%;
+    height: 46px;
+
+    padding: 0 14px;
+
+    color: #ffffff;
+    background: rgba(0, 0, 0, 0.32);
+
+    border: 1px solid rgba(255, 255, 255, 0.11);
+    border-radius: 9px;
+
+    outline: none;
+
+    font-size: 13px;
+
+    transition:
+        border-color 0.2s ease,
+        box-shadow 0.2s ease,
+        background 0.2s ease;
+}
+
+#formulario_ferramenta input::placeholder {
+    color: #596563;
+}
+
+#formulario_ferramenta input:hover {
+    border-color: rgba(255, 255, 255, 0.18);
+}
+
+#formulario_ferramenta input:focus {
+    background: rgba(0, 0, 0, 0.42);
+
+    border-color: #1de3d8;
+
+    box-shadow:
+        0 0 0 3px rgba(29, 227, 216, 0.10),
+        0 0 18px rgba(29, 227, 216, 0.06);
 }
